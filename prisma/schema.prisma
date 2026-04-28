@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Conversation {
+  id        String     @id @default(cuid())
+  title     String     @default("New Chat")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  messages  Message[]
+
+  @@index([createdAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  role           String       // "user" | "assistant" | "system"
+  content        String
+  hasImage       Boolean      @default(false)
+  hasPdf         Boolean      @default(false)
+  imageData      String?
+  citations      String?      // JSON array of citation data
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+}
+
+model QuizAttempt {
+  id                 String   @id @default(cuid())
+  questionId         String
+  topicId            String
+  topicName          String
+  difficulty         String   // easy, medium, hard
+  selectedAnswer     String   // a, b, c, d
+  correctAnswer      String
+  isCorrect          Boolean
+  language           String   // en, zh
+  questionText       String?  // full question prompt (for AI insight analysis)
+  selectedAnswerText String?  // text of the option the user picked
+  correctAnswerText  String?  // text of the correct option
+  explanation        String?  // explanation returned by check-kb
+  createdAt          DateTime @default(now())
+
+  @@index([topicId])
+  @@index([difficulty])
+  @@index([createdAt])
+  @@index([isCorrect])
+}
+
+model AdminSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model KnowledgeDocument {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   // extracted text content
+  fileType  String   // pdf, txt, md, docx
+  fileSize  Int      // file size in bytes
+  chunkCount Int     @default(1) // number of chunks after splitting
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+}
