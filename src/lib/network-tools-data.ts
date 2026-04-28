@@ -1,0 +1,152 @@
+export interface NetworkTool {
+  id: string;
+  name: string;
+  nameZh: string;
+  category: 'diagnostic' | 'configuration' | 'analysis' | 'security';
+  command: string;
+  description: string;
+  descriptionZh: string;
+  os: 'cross' | 'windows' | 'mac' | 'linux';
+  example?: string;
+}
+
+export const networkTools: NetworkTool[] = [
+  {
+    id: 'ping',
+    name: 'Ping',
+    nameZh: '連通性測試',
+    category: 'diagnostic',
+    command: 'ping [hostname]',
+    description: 'Test network connectivity and measure round-trip time',
+    descriptionZh: '測試網絡連通性並測量往返時間',
+    os: 'cross',
+    example: 'ping google.com',
+  },
+  {
+    id: 'traceroute',
+    name: 'Traceroute',
+    nameZh: '路由追蹤',
+    category: 'diagnostic',
+    command: 'traceroute [hostname] / tracert [hostname]',
+    description: 'Trace the path packets take to reach a destination',
+    descriptionZh: '追蹤數據包到達目的地的路徑',
+    os: 'cross',
+    example: 'traceroute google.com',
+  },
+  {
+    id: 'ifconfig',
+    name: 'ifconfig / ipconfig',
+    nameZh: '網絡配置查看',
+    category: 'configuration',
+    command: 'ifconfig / ip addr show',
+    description: 'Display network interface configuration and IP addresses',
+    descriptionZh: '顯示網絡接口配置和 IP 地址',
+    os: 'cross',
+  },
+  {
+    id: 'netstat',
+    name: 'netstat / ss',
+    nameZh: '網絡狀態',
+    category: 'diagnostic',
+    command: 'netstat -tuln / ss -tuln',
+    description: 'Show active TCP/UDP connections and listening ports',
+    descriptionZh: '顯示活動的 TCP/UDP 連接和監聽端口',
+    os: 'cross',
+    example: 'netstat -tuln',
+  },
+  {
+    id: 'nslookup',
+    name: 'nslookup / dig',
+    nameZh: 'DNS 查詢',
+    category: 'diagnostic',
+    command: 'nslookup [domain] / dig [domain]',
+    description: 'Query DNS records for a domain',
+    descriptionZh: '查詢域名的 DNS 紀錄',
+    os: 'cross',
+    example: 'nslookup google.com',
+  },
+  {
+    id: 'curl',
+    name: 'curl',
+    nameZh: 'HTTP 請求',
+    category: 'analysis',
+    command: 'curl -v [url]',
+    description: 'Send HTTP requests and view response headers',
+    descriptionZh: '發送 HTTP 請求並查看響應頭',
+    os: 'cross',
+    example: 'curl -I https://example.com',
+  },
+  {
+    id: 'tcpdump',
+    name: 'tcpdump',
+    nameZh: '抓包工具',
+    category: 'analysis',
+    command: 'sudo tcpdump -i eth0 port 80',
+    description: 'Capture and analyze network packets',
+    descriptionZh: '捕獲和分析網絡數據包',
+    os: 'linux',
+    example: 'sudo tcpdump -i eth0 -c 10',
+  },
+  {
+    id: 'wireshark',
+    name: 'Wireshark',
+    nameZh: '網絡分析器',
+    category: 'analysis',
+    command: 'wireshark',
+    description: 'GUI-based network protocol analyzer',
+    descriptionZh: '基於圖形界面的網絡協定分析器',
+    os: 'cross',
+  },
+  {
+    id: 'ssh',
+    name: 'SSH',
+    nameZh: '遠程連接',
+    category: 'security',
+    command: 'ssh user@hostname',
+    description: 'Secure remote shell connection',
+    descriptionZh: '安全的遠程 shell 連接',
+    os: 'cross',
+    example: 'ssh student@server.hkust.edu.hk',
+  },
+  {
+    id: 'openssl',
+    name: 'OpenSSL',
+    nameZh: 'SSL/TLS 工具',
+    category: 'security',
+    command: 'openssl s_client -connect [host]:443',
+    description: 'Test TLS/SSL connection and view certificate details',
+    descriptionZh: '測試 TLS/SSL 連接並查看證書詳情',
+    os: 'cross',
+    example: 'openssl s_client -connect google.com:443',
+  },
+  {
+    id: 'iptables',
+    name: 'iptables',
+    nameZh: '防火牆配置',
+    category: 'security',
+    command: 'sudo iptables -L -n -v',
+    description: 'Configure Linux firewall rules',
+    descriptionZh: '配置 Linux 防火牆規則',
+    os: 'linux',
+    example: 'sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT',
+  },
+  {
+    id: 'arp',
+    name: 'ARP',
+    nameZh: 'ARP 表',
+    category: 'diagnostic',
+    command: 'arp -a / ip neigh',
+    description: 'Display or modify the ARP cache table',
+    descriptionZh: '顯示或修改 ARP 緩存表',
+    os: 'cross',
+    example: 'arp -a',
+  },
+];
+
+export const toolCategories = [
+  { id: 'all', label: 'All Tools', labelZh: '全部工具', icon: 'Wrench' },
+  { id: 'diagnostic', label: 'Diagnostic', labelZh: '診斷工具', icon: 'Stethoscope' },
+  { id: 'configuration', label: 'Configuration', labelZh: '配置工具', icon: 'Settings' },
+  { id: 'analysis', label: 'Analysis', labelZh: '分析工具', icon: 'Search' },
+  { id: 'security', label: 'Security', labelZh: '安全工具', icon: 'Shield' },
+];
